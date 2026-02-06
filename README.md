@@ -1,12 +1,41 @@
-# React + Vite
+# BlogCRUD
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple blog application built with React, Vite, and JSON Server. It supports full CRUD operations for blog posts and includes a production-ready server for deployment.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Frontend**: Built with React and Vite for a fast development experience.
+- **Backend**: JSON Server for a simple, file-based REST API.
+- **Production Server**: Express-based server to serve both the API and the frontend from a single port.
+- **Admin Dashboard**: Manage posts (Add, Edit, Delete).
+- **Responsive Design**: Works on mobile and desktop.
 
-## Expanding the ESLint configuration
+## Local Development
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start development server (Vite + JSON Server):
+   ```bash
+   npm run dev:all
+   ```
+3. Access the app at `http://localhost:5173`.
+
+## Deployment on Render
+
+This project is configured for easy deployment on [Render](https://render.com/).
+
+### Steps:
+
+1. Create a new **Web Service** on Render.
+2. Connect your GitHub repository.
+3. Configure the following settings:
+   - **Environment**: `Node`
+   - **Build Command**: `npm install && npm run build`
+   - **Start Command**: `npm start`
+4. Render will automatically detect the port and deploy your application.
+
+### API Endpoint
+
+In production, the API is available at `/api`. In development, it points to `http://localhost:5000`. This is managed automatically via `src/apiConfig.js`.

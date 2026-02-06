@@ -1,0 +1,198 @@
+openapi: 3.0.0
+info:
+  title: Blog App API
+  version: 1.0.0
+  description: API for managing blog posts and users
+
+servers:
+  - url: http://localhost:5000
+
+paths:
+  /posts:
+    get:
+      summary: Get all posts
+      responses:
+        "200":
+          description: List of posts
+      x-codeSamples:
+        - lang: JavaScript
+          label: Fetch
+          source: |
+            fetch("http://localhost:5000/posts")
+              .then(res => res.json())
+              .then(data => console.log(data))
+        - lang: PHP
+          source: |
+            <?php
+            $json = file_get_contents("http://localhost:5000/posts");
+            $posts = json_decode($json, true);
+            print_r($posts);
+            ?>
+        - lang: cURL
+          source: |
+            curl http://localhost:5000/posts
+
+  /posts/{id}:
+    get:
+      summary: Get single post by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Single post found
+        "404":
+          description: Post not found
+      x-codeSamples:
+        - lang: JavaScript
+          source: |
+            fetch("http://localhost:5000/posts/123")
+              .then(res => res.json())
+              .then(data => console.log(data))
+        - lang: cURL
+          source: |
+            curl http://localhost:5000/posts/123
+
+  /create-post:
+    post:
+      summary: Create a new blog post
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: My Title
+                content:
+                  type: string
+                  example: My Content
+                image:
+                  type: string
+                  format: binary
+              required:
+                - title
+                - content
+      responses:
+        "200":
+          description: Post created successfully
+        "400":
+          description: Invalid input
+      x-codeSamples:
+        - lang: JavaScript
+          source: |
+            const formData = new FormData();
+            formData.append("title", "My Title");
+            formData.append("content", "My Content");
+
+            fetch("http://localhost:5000/create-post", {
+              method: "POST",
+              body: formData
+            });
+        - lang: PHP
+          source: |
+            <?php
+            $ch = curl_init("http://localhost:5000/create-post");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, [
+              "title" => "My Title",
+              "content" => "My Content"
+            ]);
+            $response = curl_exec($ch);
+            curl_close($ch);
+            ?>
+        - lang: cURL
+          source: |
+            curl -X POST http://localhost:5000/create-post \
+              -F "title=My Title" \
+              -F "content=My Content"
+
+  /signup:
+    post:
+      summary: User signup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Olusegun
+                email:
+                  type: string
+                  example: olu@me.com
+                password:
+                  type: string
+                  example: 123
+              required:
+                - name
+                - email
+                - password
+      responses:
+        "200":
+          description: User created
+      x-codeSamples:
+        - lang: JavaScript
+          source: |
+            fetch("http://localhost:5000/signup", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                name: "Olusegun",
+                email: "olu@me.com",
+                password: "123"
+              })
+            });
+        - lang: cURL
+          source: |
+            curl -X POST http://localhost:5000/signup \
+              -H "Content-Type: application/json" \
+              -d '{"name":"Olusegun","email":"olu@me.com","password":"123"}'
+
+  /signin:
+    post:
+      summary: User signin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: segun@me.com
+                password:
+                  type: string
+                  example: 123
+              required:
+                - email
+                - password
+      responses:
+        "200":
+          description: Authenticated successfully
+        "401":
+          description: Invalid credentials
+      x-codeSamples:
+        - lang: JavaScript
+          source: |
+            fetch("http://localhost:5000/signin", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: "segun@me.com",
+                password: "123"
+              })
+            });
+        - lang: cURL
+          source: |
+            curl -X POST http://localhost:5000/signin \
+              -H "Content-Type: application/json" \
+              -d '{"email":"segun@me.com","password":"123"}'

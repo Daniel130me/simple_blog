@@ -1,0 +1,149 @@
+openapi: 3.0.0
+info:
+  title: Blog App API
+  version: 1.0.0
+  description: API documentation for the Blog App.
+
+servers:
+  - url: "http://localhost:5000"
+    variables:
+      baseurl:
+        default: http://localhost:5000
+        description: Base URL of the API.
+
+paths:
+
+  /create-post:
+    post:
+      summary: Create a new blog post
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: strange title
+                content:
+                  type: string
+                  example: strange content lives here
+                image:
+                  type: string
+                  format: binary
+              required:
+                - title
+                - content
+      responses:
+        "200":
+          description: Post created successfully
+        "400":
+          description: Invalid input
+
+  /posts:
+    get:
+      summary: Get all posts
+      responses:
+        "200":
+          description: List of posts
+
+  /post/{id}:
+    get:
+      summary: Get single post by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 685bbbfebc8f80c42d7f6f12
+      responses:
+        "200":
+          description: Single post found
+        "404":
+          description: Post not found
+
+    patch:
+      summary: Update a single post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 685bbbfebc8f80c42d7f6f12
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: my new title
+      responses:
+        "200":
+          description: Post updated
+        "400":
+          description: Invalid data
+        "404":
+          description: Post not found
+
+  /signup:
+    post:
+      summary: User signup
+      description: A sign up page
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Olusegun
+                email:
+                  type: string
+                  format: email
+                  example: olu@me.com
+                password:
+                  type: string
+                  format: password
+                  example: 123
+              required:
+                - name
+                - email
+                - password
+      responses:
+        "200":
+          description: User created
+
+  /signin:
+    post:
+      summary: User signin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: segun@me.com
+                password:
+                  type: string
+                  format: password
+                  example: 123
+              required:
+                - email
+                - password
+      responses:
+        "200":
+          description: Authenticated successfully
+        "401":
+          description: Invalid credentials
