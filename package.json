@@ -8,8 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "node server.js",
-    "dev:all": "concurrently \"npm run dev\" \"npm run api\"",
+    "start": "concurrently \"npm run dev\" \"npm run api\"",
     "api": "json-server --watch db.json --port 5000"
   },
   "dependencies": {
