@@ -9,14 +9,15 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "concurrently \"npm run dev\" \"npm run api\"",
-    "api": "json-server --watch db.json --port 5000"
+    "api": "json-server --watch db.json --port 5000",
+    "start:prod": "node server.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.9.0",
     "concurrently": "^9.2.0",
     "express": "^4.19.2",
     "groq-sdk": "^0.35.0",
-    "json-server": "^1.0.0-beta.3",
+    "json-server": "^0.17.4",
     "react": "^19.1.1",
     "react-chatbotify": "^2.4.1",
     "react-dom": "^19.1.1",
